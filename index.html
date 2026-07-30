@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Classic Snake Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,10 +12,10 @@
         <div class="canvas-wrapper">
             <canvas id="gameCanvas" width="400" height="400"></canvas>
             
-            <!-- NEW: Start Screen Overlay -->
+            <!-- Start Screen Overlay -->
             <div id="startScreen" class="overlay">
                 <h2>Snake Game</h2>
-                <p style="margin-bottom: 20px; color: #aaa;">Use Arrow keys or WASD to move</p>
+                <p class="controls-hint">Use Keyboard or D-Pad to move</p>
                 <button id="startBtn">Start Game</button>
             </div>
 
@@ -25,8 +25,18 @@
                 <button id="restartBtn">Play Again</button>
             </div>
         </div>
+
+        <!-- NEW: On-Screen D-Pad Controls for Mobile -->
+        <div class="mobile-controls">
+            <button id="btnUp" class="ctrl-btn">▲</button>
+            <div class="middle-row">
+                <button id="btnLeft" class="ctrl-btn">◀</button>
+                <div class="spacer"></div>
+                <button id="btnRight" class="ctrl-btn">▶</button>
+            </div>
+            <button id="btnDown" class="ctrl-btn">▼</button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
-

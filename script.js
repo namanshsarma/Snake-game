@@ -6,7 +6,12 @@ const gameOverScreen = document.getElementById("gameOverScreen");
 const startBtn = document.getElementById("startBtn");
 const restartBtn = document.getElementById("restartBtn");
 
-// Grid and sizing configuration
+// Mobile D-Pad Button Bindings
+const btnUp = document.getElementById("btnUp");
+const btnDown = document.getElementById("btnDown");
+const btnLeft = document.getElementById("btnLeft");
+const btnRight = document.getElementById("btnRight");
+
 const gridSize = 20; 
 const tileCount = canvas.width / gridSize;
 
@@ -19,12 +24,10 @@ let gameInterval;
 let changingDirection = false; 
 let gameActive = false; 
 
-// Set up initial visuals on load
 initCanvas();
 
 function initCanvas() {
     clearCanvas();
-    // Render a placeholder snake head and food for aesthetic background preview
     ctx.fillStyle = "#00ff88";
     ctx.fillRect(gridSize * 5, gridSize * 5, gridSize, gridSize);
     ctx.fillStyle = "#ff3333";
@@ -32,7 +35,6 @@ function initCanvas() {
 }
 
 function startGame() {
-    // Reset initial parameters
     snake = [
         { x: gridSize * 5, y: gridSize * 5 },
         { x: gridSize * 4, y: gridSize * 5 },
@@ -43,7 +45,6 @@ function startGame() {
     dy = 0;
     scoreElement.innerText = score;
     
-    // Hide all menu layers
     startScreen.classList.add("hidden");
     gameOverScreen.classList.add("hidden");
     
@@ -51,7 +52,7 @@ function startGame() {
     gameActive = true;
     
     clearInterval(gameInterval);
-    gameInterval = setInterval(update, 150)
+    gameInterval = setInterval(update, 200); 
 }
 
 function update() {
@@ -113,12 +114,10 @@ function drawFood() {
 }
 
 function hasGameEnded() {
-    // Self-collision check
     for (let i = 4; i < snake.length; i++) {
         if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
     }
 
-    // Outer perimeter canvas wall collisions
     const hitLeftWall = snake[0].x < 0;
     const hitRightWall = snake[0].x >= canvas.width;
     const hitTopWall = snake[0].y < 0;
@@ -127,49 +126,47 @@ function hasGameEnded() {
     return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
 }
 
-// Input control configurations
-document.addEventListener("keydown", changeDirection);
-startBtn.addEventListener("click", startGame);
-restartBtn.addEventListener("click", startGame);
-
-function changeDirection(event) {
-    const keyPressed = event.key;
-    
-    // Spacebar alternative trigger
-    if (keyPressed === " " || keyPressed === "Spacebar") {
-        if (!gameActive) {
-            startGame();
-            return;
-        }
-    }
-
-    if (!gameActive) return;
+// Direction Validation Logic
+function handleDirectionChange(direction) {
+    if (!gameActive || changingDirection) return;
 
     const goingUp = dy === -gridSize;
     const goingDown = dy === gridSize;
     const goingRight = dx === gridSize;
     const goingLeft = dx === -gridSize;
 
-    if (changingDirection) return;
-
-    if ((keyPressed === "ArrowLeft" || keyPressed === "a") && !goingRight) {
-        dx = -gridSize;
-        dy = 0;
-        changingDirection = true;
+    if (direction === "LEFT" && !goingRight) {
+        dx = -gridSize; dy = 0; changingDirection = true;
     }
-    if ((keyPressed === "ArrowUp" || keyPressed === "w") && !goingDown) {
-        dx = 0;
-        dy = -gridSize;
-        changingDirection = true;
+    if (direction === "UP" && !goingDown) {
+        dx = 0; dy = -gridSize; changingDirection = true;
     }
-    if ((keyPressed === "ArrowRight" || keyPressed === "d") && !goingLeft) {
-        dx = gridSize;
-        dy = 0;
-        changingDirection = true;
+    if (direction === "RIGHT" && !goingLeft) {
+        dx = gridSize; dy = 0; changingDirection = true;
     }
-    if ((keyPressed === "ArrowDown" || keyPressed === "s") && !goingUp) {
-        dx = 0;
-        dy = gridSize;
-        changingDirection = true;
+    if (direction === "DOWN" && !goingUp) {
+        dx = 0; dy = gridSize; changingDirection = true;
     }
 }
+
+// Keyboard Event Handlers
+document.addEventListener("keydown", (event) => {
+    const keyPressed = event.key;
+    if (keyPressed === " " || keyPressed === "Spacebar") {
+        if (!gameActive) { startGame(); return; }
+    }
+    
+    if (keyPressed === "ArrowLeft" || keyPressed === "a") handleDirectionChange("LEFT");
+    if (keyPressed === "ArrowUp" || keyPressed === "w") handleDirectionChange("UP");
+    if (keyPressed === "ArrowRight" || keyPressed === "d") handleDirectionChange("RIGHT");
+    if (keyPressed === "ArrowDown" || keyPressed === "s") handleDirectionChange("DOWN");
+});
+
+// Mobile Button Touch Listeners
+btnLeft.addEventListener("click", () => handleDirectionChange("LEFT"));
+btnUp.addEventListener("click", () => handleDirectionChange("UP"));
+btnRight.addEventListener("click", () => handleDirectionChange("RIGHT"));
+btnDown.addEventListener("click", () => handleDirectionChange("DOWN"));
+
+startBtn.addEventListener("click", startGame);
+restartBtn.addEventListener("click", startGame);

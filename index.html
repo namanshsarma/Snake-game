@@ -1,42 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Classic Snake Game</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="game-container">
-        <div class="score-board">Score: <span id="score">0</span></div>
-        <div class="canvas-wrapper">
-            <canvas id="gameCanvas" width="400" height="400"></canvas>
-            
-            <!-- Start Screen Overlay -->
-            <div id="startScreen" class="overlay">
-                <h2>Snake Game</h2>
-                <p class="controls-hint">Use Keyboard or D-Pad to move</p>
-                <button id="startBtn">Start Game</button>
-            </div>
-
-            <!-- Game Over Overlay -->
-            <div id="gameOverScreen" class="overlay hidden">
-                <h2>Game Over!</h2>
-                <button id="restartBtn">Play Again</button>
-            </div>
-        </div>
-
-        <!-- NEW: On-Screen D-Pad Controls for Mobile -->
-        <div class="mobile-controls">
-            <button id="btnUp" class="ctrl-btn">▲</button>
-            <div class="middle-row">
-                <button id="btnLeft" class="ctrl-btn">◀</button>
-                <div class="spacer"></div>
-                <button id="btnRight" class="ctrl-btn">▶</button>
-            </div>
-            <button id="btnDown" class="ctrl-btn">▼</button>
-        </div>
+<!-- Mobile Cross D-Pad Control Panel -->
+<div id="mobile-controls">
+    <!-- Top Row: Up Arrow -->
+    <div class="control-row">
+        <button class="control-btn" id="btn-up">▲</button>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
+    
+    <!-- Middle Row: Left and Right Arrows -->
+    <div class="control-row middle-row">
+        <button class="control-btn" id="btn-left">◀</button>
+        <!-- This empty spacer keeps the left and right buttons separated -->
+        <div class="dpad-spacer"></div>
+        <button class="control-btn" id="btn-right">▶</button>
+    </div>
+    
+    <!-- Bottom Row: Down Arrow -->
+    <div class="control-row">
+        <button class="control-btn" id="btn-down">▼</button>
+    </div>
+</div>
